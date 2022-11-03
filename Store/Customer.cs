@@ -38,7 +38,7 @@ public class Customer
         sb.AppendLine($"{Name} (Password: {Password})");
         sb.AppendLine();
 
-        if (_cart?.Count > 0) sb.Append(GetCart());
+        if (_cart.Count > 0) sb.Append(GetCart());
         else sb.AppendLine("No items in cart.");
 
         return sb.ToString();
