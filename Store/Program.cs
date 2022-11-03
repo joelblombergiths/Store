@@ -1,7 +1,7 @@
 ﻿using Store;
 using System.Text;
 
-List<Customer> customers;
+List<Customer> customers = new();
 
 List<Product> products = new()
 {
@@ -12,7 +12,16 @@ List<Product> products = new()
 
 do
 {
-    customers = Customer.LoadCustomers();
+    try
+    {
+        customers = Customer.LoadCustomers();
+    }
+    catch (Exception)
+    {
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine("Failed to load list of customers");
+        Console.ForegroundColor = ConsoleColor.Gray;
+    }
 
     Console.WriteLine("Welcome to the store Put-Awesome-Name-Here.");
     Console.WriteLine();
@@ -137,10 +146,19 @@ void Login()
 
     if (Customer.HasSavedCart(customer.Name))
     {
-        customer.LoadCart();
-        Console.ForegroundColor = ConsoleColor.DarkYellow;
-        Console.WriteLine("Loaded previous saved cart");
-        Console.ForegroundColor = ConsoleColor.Gray;
+        try
+        {
+            customer.LoadCart();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Loaded previous saved cart");
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+        catch (Exception)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Failed to Load previous saved cart");
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
     }
 
     ShowStore(customer);
@@ -273,7 +291,7 @@ bool Checkout(Customer customer)
             default:
                 continue;
         }
-        
+
         Console.WriteLine("Press the Any key to return to the login screen.");
         Console.ReadKey(true);
         return true;

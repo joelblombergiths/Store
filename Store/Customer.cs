@@ -101,6 +101,8 @@ public class Customer
 
     public void SaveCart()
     {
+        if (_cart == null! || _cart.Count <= 0) return;
+
         if (!DataPath.Exists) DataPath.Create();
 
         string jsonString = JsonSerializer.Serialize(_cart, options: new() { WriteIndented = true });
